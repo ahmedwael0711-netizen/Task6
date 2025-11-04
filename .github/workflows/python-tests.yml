@@ -1,21 +1,9 @@
-name: Python Tests
+name: Simple Two Jobs Workflow
 
-on:
-  push:
-    branches: [ main ]
+on: [push]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run tests
-        run: |
-          python -m unittest 
-  lint:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,4 +11,16 @@ jobs:
         with:
           python-version: '3.11'
       - run: |
-          "sucess"
+          pip install -r requirements.txt
+          python -m unittest discover
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          pip install -r requirements.txt
+          python -m unittest discover
